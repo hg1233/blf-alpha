@@ -62,6 +62,10 @@ const sectionOrganisation = {
                 },
                 {
                     legend: { en: 'What is the main or registered address of your organisation?', cy: '' },
+                    meta: {
+                        type: 'addressLookup',
+                        addressLookupField: allFields.organisationAddressPostcode
+                    },
                     fields: [
                         allFields.organisationAddressBuildingStreet,
                         allFields.organisationAddressTownCity,

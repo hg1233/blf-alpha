@@ -35,7 +35,10 @@
                 {{ formErrors(errors = errors) }}
 
                 {% for fieldset in step.fieldsets %}
-                    <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
+                    {% if fieldset.meta and fieldset.meta.type === 'addressLookup' %}
+                        {% set fieldsetId = 'js-address-input' %}
+                    {% endif %}
+                    <fieldset class="form-fieldset u-constrained-wide u-constrained-content"{% if fieldsetId %} id="{{ fieldsetId }}"{% endif %}>
                         <legend class="form-fieldset__legend t2 t--underline">
                             {{ fieldset.legend }}
                         </legend>
@@ -48,7 +51,7 @@
                         <div class="form-fieldset__fields">
                             {% for field in fieldset.fields %}
                                 {% set fieldCopy = copy.fields[field.name] %}
-                                {{ formField(field, errors = errors) }}
+                                {{ formField(field, errors = errors, fieldsetMeta = fieldset.meta) }}
                             {% endfor %}
                         </div>
                     </fieldset>

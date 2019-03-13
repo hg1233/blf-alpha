@@ -3,6 +3,7 @@ import $ from 'jquery';
 
 import CharacterCount from './components/character-count.vue';
 import BudgetInput from './components/budget-input.vue';
+import AddressInput from './components/address-input.vue';
 
 function initCharacterCount() {
     const el = document.querySelector('.js-character-count');
@@ -45,9 +46,34 @@ function initBudgetInput() {
     }
 }
 
+function initAddressInput() {
+    const el = document.getElementById('js-address-input');
+    if (el) {
+        new Vue({
+            el: el,
+            components: {
+                'address-input': AddressInput
+            },
+            mounted: function() {
+                // // Prevent the Enter key from submitting the entire form
+                // // if pressed inside a budget field
+                // $(this.$el).on('keypress', 'input', function(event) {
+                //     return event.keyCode !== 13;
+                // });
+                // // Clear out <noscript> fallbacks otherwise they submit as well as the
+                // // Vue-enhanced fields (eg. double inputs)
+                // $(this.$el)
+                //     .find('.js-fallback-only')
+                //     .remove();
+            }
+        });
+    }
+}
+
 function init() {
     initCharacterCount();
     initBudgetInput();
+    initAddressInput();
 }
 
 export default {

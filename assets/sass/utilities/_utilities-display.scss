@@ -156,3 +156,10 @@
         display: none !important;
     }
 }
+
+// hide non-JS thing for users with JS
+.js-on {
+    .js-hidden {
+        display: none !important;
+    }
+}

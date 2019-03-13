@@ -297,13 +297,23 @@
 
 {% endmacro %}
 
-{% macro formField(field, fieldCopy = {}, errors = []) %}
+{% macro formField(field, fieldCopy = {}, errors = [], fieldsetMeta = null) %}
     {% set fieldErrors = errors | filter('param', field.name) %}
+
+    {% if fieldsetMeta and fieldsetMeta.type === 'addressLookup' %}
+        {% set customFieldClass = 'js-hidden' if fieldsetMeta.addressLookupField.name != field.name else 'js-address-lookup-field' %}
+    {% endif %}
+
     <div
         id="form-field-{{ field.name }}"
-        class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}{% if fieldErrors | length > 0 %} has-errors{% endif %}">
+        class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}{% if fieldErrors | length > 0 %} has-errors{% endif %}{% if customFieldClass %} {{ customFieldClass }}{% endif %}">
         <div class="form-field__main">
             <div class="form-field__body">
+
+                {% if fieldsetMeta.addressLookupField.name === field.name %}
+                    <address-input></address-input>
+                {% endif %}
+
                 {% if field.type === 'textarea' %}
                     {{ inputTextarea(field, fieldCopy) }}
                 {% elseif field.type === 'select' %}
@@ -319,6 +329,7 @@
                 {% else %}
                     {{ inputText(field, fieldCopy) }}
                 {% endif %}
+                {% if fieldClass %}</div>{% endif %}
             </div>
             {% if fieldErrors.length > 0 %}
                 <ol class="form-field__errors">
@@ -330,3 +341,9 @@
         </div>
     </div>
 {% endmacro %}
+<script>
+    import AddressInput from '../../../assets/js/vue-apps/components/address-input';
+    export default {
+        components: { AddressInput }
+    };
+</script>
